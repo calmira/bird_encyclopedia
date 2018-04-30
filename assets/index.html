@@ -17,7 +17,6 @@ body, h1,h2,h3,h4,h5,h6 {font-family: "Montserrat", sans-serif}
 @media only screen and (max-width: 600px) {#main {margin-left: 0}}
 th, td {
     padding: 10px;
-    text-align: left;
 }
 </style>
 <body class="w3-black">
@@ -104,13 +103,14 @@ th, td {
   <div class="w3-padding-64 w3-content w3-text-grey" id="contact">
     <h2 class="w3-text-light-grey">List of Birds</h2>
     <hr style="width:200px" class="w3-opacity">
-    <table class="bird-table">
+    <!-- <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"> -->
+    <p><input class="w3-input w3-padding-16" type="text" placeholder="Search for Species" id="myInput" onkeyup="myFunction()"></p>
+    <table id="myTable" class="bird-table">
       <tr>
-        <th width="15%"><b>Species</b></th>
-        <th width="60%"><b>Description</b></th>
-        <th width="25%"><b>Image</b></th>
+        <th width="15%" align="center"><b>Species</b></th>
+        <th width="60%" align="center"><b>Description</b></th>
+        <th width="25%" align="center"><b>Image</b></th>
       </tr>
-        
       <tr>
         
       </tr>
@@ -150,7 +150,7 @@ th, td {
         //Once we fetch the list, we iterate over it
         birdList.forEach(bird => {
           // Create the table row
-          row = document.createElement("tr")
+          row = document.createElement("tr");
 
           // Create the table data elements for the species and
           // description columns
@@ -160,18 +160,35 @@ th, td {
           description.innerHTML = bird.description
           img = document.createElement("img");
           img.src = bird.image;
-          img.setAttribute("width", "100");
+          img.setAttribute("width", "90%");
           image = document.createElement("td");
           image.appendChild(img);
 
           // Add the data elements to the row
-          row.appendChild(species)
-          row.appendChild(description)
-          row.appendChild(image)
+          row.appendChild(species);
+          row.appendChild(description);
+          row.appendChild(image);
           // Finally, add the row element to the table itself
-          birdTable.appendChild(row)
-        })
-      })
+          birdTable.appendChild(row);
+        });
+      });
+      function myFunction() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[0];
+          if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }       
+        }
+      }
   </script>
 </body>
 </html>
