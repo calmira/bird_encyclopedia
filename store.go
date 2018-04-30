@@ -25,14 +25,14 @@ func (store *dbStore) CreateBird(bird *Bird) error {
 	// THe first underscore means that we don't care about what's returned from
 	// this insert query. We just want to know if it was inserted correctly,
 	// and the error will be populated if it wasn't
-	_, err := store.db.Query("INSERT INTO birds(species, description) VALUES ($1,$2)", bird.Species, bird.Description)
+	_, err := store.db.Query("INSERT INTO birds(species, description, image) VALUES ($1,$2,$3)", bird.Species, bird.Description, bird.Image)
 	return err
 }
 
 func (store *dbStore) GetBirds() ([]*Bird, error) {
 	// Query the database for all birds, and return the result to the
 	// `rows` object
-	rows, err := store.db.Query("SELECT species, description from birds")
+	rows, err := store.db.Query("SELECT species, description, image from birds")
 	// We return incase of an error, and defer the closing of the row structure
 	if err != nil {
 		return nil, err
@@ -47,7 +47,7 @@ func (store *dbStore) GetBirds() ([]*Bird, error) {
 		bird := &Bird{}
 		// Populate the `Species` and `Description` attributes of the bird,
 		// and return incase of an error
-		if err := rows.Scan(&bird.Species, &bird.Description); err != nil {
+		if err := rows.Scan(&bird.Species, &bird.Description, &bird.Image); err != nil {
 			return nil, err
 		}
 		// Finally, append the result to the returned array, and repeat for

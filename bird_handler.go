@@ -9,6 +9,7 @@ import (
 type Bird struct {
 	Species     string `json:"species"`
 	Description string `json:"description"`
+	Image		string `json:"image"`
 }
 
 func getBirdHandler(w http.ResponseWriter, r *http.Request) {
@@ -45,6 +46,7 @@ func createBirdHandler(w http.ResponseWriter, r *http.Request) {
 
 	bird.Species = r.Form.Get("species")
 	bird.Description = r.Form.Get("description")
+	bird.Image = r.Form.Get("image")
 
 	// The only change we made here is to use the `CreateBird` method instead of
 	// appending to the `bird` variable like we did earlier
